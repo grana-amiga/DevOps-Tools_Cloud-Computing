@@ -1,0 +1,16 @@
+# Segredos
+.env
+
+# Material de aula (direitos reservados do professor, não pode ser público)
+docs/aulas/
+
+# Build Java
+target/
+*.class
+
+# IDE / SO
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

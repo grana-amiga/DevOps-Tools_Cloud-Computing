@@ -23,7 +23,7 @@
 
 O grupo vai entregar um **app de educação e organização financeira para famílias endividadas**, com um **medidor de energia IoT** que mostra em reais o custo da conta de luz. A mesma solução é a base das 7 disciplinas da Global Solution, que vale **60% da nota do semestre**.
 
-- **Nome do app:** a definir (ver seção 12 – sugestões).
+- **Nome do app:** **Grana Amiga** (definido em 10/11).
 - **Tema da GS:** CitizenTech — "Tecnologia com o cidadão no centro da inovação".
 - **Linha do desafio:** Serviços e direitos.
 - **Parceiros da GS:** Claro e CIX Brasil.
@@ -403,7 +403,7 @@ No Archimate, o chatbot é um serviço da camada de Aplicação ligado à API Ja
 
 ## 11. Pendências do grupo
 
-- [ ] Definir o nome do app
+- [x] Definir o nome do app → **Grana Amiga**
 - [ ] Confirmar com o professor de .NET se a apresentação é online ou presencial
 - [ ] Confirmar com o professor de Mobile se biometria e voz entram no escopo
 - [ ] Decidir se o IoT será físico ou simulado no Wokwi

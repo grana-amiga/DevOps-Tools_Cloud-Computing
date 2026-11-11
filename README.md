@@ -25,8 +25,9 @@ Turma: **2TDSPR**
 
 ## Arquitetura
 
-<!-- TODO: gerar docs/arquitetura.png -->
 ![Arquitetura da solução](docs/arquitetura.png)
+
+> Fonte editável: [`docs/arquitetura.drawio`](docs/arquitetura.drawio) (abrir no [draw.io](https://app.diagrams.net/)).
 
 **Fluxo:** o usuário (app, navegador ou cURL) acessa o **IP público da VM** na porta **8080**. O **NSG** da Azure libera só as portas 22 (SSH) e 8080 (API). O Docker encaminha a requisição para o container **`app`** (API Spring Boot), que grava e lê os dados no container **`db`** (PostgreSQL) pela rede interna **`granaamiga-network`**, usando o nome do serviço `db` como host. Os dados do banco ficam no volume nomeado **`granaamiga_postgres-data`**, então sobrevivem à recriação dos containers. A porta 5432 do banco **não** é exposta para a internet.
 
@@ -56,6 +57,7 @@ Turma: **2TDSPR**
 │   └── teardown.sh             # Azure CLI: apaga o grupo de recursos
 ├── docs/
 │   ├── arquitetura.png         # Arquitetura macro da solução
+│   ├── arquitetura.drawio      # Fonte editável do diagrama
 │   └── evidencias/             # Prints da execução na VM
 ├── docker-compose.yml          # Serviços app + db, rede e volume
 ├── .env.example                # Modelo das variáveis (o .env real não vai para o Git)

@@ -1,0 +1,147 @@
+<mxfile host="Electron">
+  <diagram id="granaamiga-arch" name="Arquitetura Grana Amiga - Azure">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1480" pageHeight="830" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Containers de agrupamento -->
+        <mxCell id="azure" parent="1" vertex="1" value="&lt;b&gt;Microsoft Azure · South Africa North&lt;/b&gt;" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=2;align=left;verticalAlign=top;spacingLeft=20;spacingTop=8;fontSize=13;">
+          <mxGeometry x="290" y="0" width="1160" height="810" as="geometry" />
+        </mxCell>
+        <mxCell id="rg" parent="1" vertex="1" value="&lt;b&gt;Grupo de Recursos: rg-granaamiga-gs&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF8000;strokeWidth=2;dashed=1;align=center;verticalAlign=bottom;spacingBottom=8;fontSize=12;">
+          <mxGeometry x="320" y="45" width="1100" height="750" as="geometry" />
+        </mxCell>
+        <mxCell id="vnet" parent="1" vertex="1" value="&lt;b&gt;VNet: vnet-granaamiga&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#7EA6E0;strokeWidth=2;dashed=1;align=center;verticalAlign=top;spacingTop=6;fontSize=12;">
+          <mxGeometry x="470" y="80" width="940" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="vm" parent="1" vertex="1" value="" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#F5F9FF;strokeColor=#1E88E5;strokeWidth=2;">
+          <mxGeometry x="640" y="115" width="750" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="vmicon" parent="1" vertex="1" value="" style="image;aspect=fixed;html=1;points=[];align=center;image=img/lib/azure2/compute/Virtual_Machine.svg;">
+          <mxGeometry x="655" y="128" width="58" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="vmtext" parent="1" vertex="1" value="&lt;b&gt;VM: vm-granaamiga&lt;/b&gt;&lt;br&gt;Ubuntu Server 24.04 LTS · Standard_B2als_v2 (2 vCPU, 4 GB) · usuário rm567295" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;">
+          <mxGeometry x="725" y="135" width="620" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="docker" parent="1" vertex="1" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1E88E5;strokeWidth=2;dashed=1;">
+          <mxGeometry x="670" y="195" width="700" height="415" as="geometry" />
+        </mxCell>
+        <mxCell id="dockericon" parent="1" vertex="1" value="" style="image;aspect=fixed;html=1;points=[];align=center;image=img/lib/mscae/Docker.svg;">
+          <mxGeometry x="682" y="205" width="52" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dockertext" parent="1" vertex="1" value="&lt;b&gt;Docker Engine + Docker Compose v2&lt;/b&gt; (docker.io · docker-compose-v2), instalados pelo setup-docker.sh&lt;br&gt;projeto Compose: &lt;b&gt;granaamiga&lt;/b&gt; · subido com &lt;i&gt;docker compose up -d --build&lt;/i&gt;" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;">
+          <mxGeometry x="745" y="205" width="610" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Rede do Compose com os dois containers -->
+        <mxCell id="net" parent="1" vertex="1" value="&lt;b&gt;Rede bridge: granaamiga-network&lt;/b&gt; (DNS interno do Docker: o app acessa o banco pelo nome &lt;i&gt;db&lt;/i&gt;)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#E8F4FD;strokeColor=#6C8EBF;strokeWidth=1.5;align=left;verticalAlign=top;spacingLeft=10;spacingTop=4;fontSize=11;">
+          <mxGeometry x="690" y="260" width="660" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="app" parent="1" vertex="1" value="&lt;b&gt;Container: app&lt;/b&gt;&lt;br&gt;API Java 21 · Spring Boot 3.5&lt;br&gt;imagem multi-stage (app/Dockerfile)&lt;br&gt;USER appuser · WORKDIR /app&lt;br&gt;EXPOSE 8080&lt;br&gt;/api/usuarios · /api/transacoes" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FF8000;strokeWidth=2;fontSize=11;spacingLeft=30;">
+          <mxGeometry x="705" y="310" width="255" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="appicon" parent="1" vertex="1" value="" style="image;aspect=fixed;html=1;points=[];align=center;image=img/lib/azure2/containers/Container_Instances.svg;">
+          <mxGeometry x="713" y="318" width="32" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" vertex="1" value="&lt;b&gt;Container: db&lt;/b&gt;&lt;br&gt;PostgreSQL 16 (imagem oficial)&lt;br&gt;expose 5432 · só rede interna&lt;br&gt;healthcheck: pg_isready&lt;br&gt;tabelas: usuario 1──N transacao" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#336791;strokeWidth=2;fontSize=11;spacingLeft=30;">
+          <mxGeometry x="1080" y="310" width="255" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="dbicon" parent="1" vertex="1" value="" style="image;aspect=fixed;html=1;points=[];align=center;image=img/lib/azure2/databases/Azure_Database_PostgreSQL_Server.svg;">
+          <mxGeometry x="1088" y="318" width="26" height="34" as="geometry" />
+        </mxCell>
+
+        <!-- Volume e .env -->
+        <mxCell id="volume" parent="1" vertex="1" value="&lt;b&gt;Volume nomeado&lt;/b&gt;&lt;br&gt;granaamiga_postgres-data&lt;br&gt;→ /var/lib/postgresql/data" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#DAE8FC;strokeColor=#336791;strokeWidth=1.5;fontSize=10;">
+          <mxGeometry x="1117" y="495" width="180" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="env" parent="1" vertex="1" value="&lt;b&gt;.env&lt;/b&gt; (na VM, fora do Git)&lt;br&gt;POSTGRES_DB · POSTGRES_USER&lt;br&gt;POSTGRES_PASSWORD · APP_PORT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontSize=10;">
+          <mxGeometry x="705" y="500" width="255" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="restart" parent="1" vertex="1" value="&lt;i&gt;restart: unless-stopped nos dois containers: voltam sozinhos após reboot da VM&lt;/i&gt;" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#555555;">
+          <mxGeometry x="705" y="575" width="400" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Rede de entrada -->
+        <mxCell id="pip" parent="1" vertex="1" value="&lt;b&gt;IP Público&lt;/b&gt;&lt;br&gt;pip-granaamiga" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=11;verticalLabelPosition=bottom;verticalAlign=top;image=img/lib/azure2/networking/Public_IP_Addresses.svg;">
+          <mxGeometry x="365" y="362" width="50" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nsg" parent="1" vertex="1" value="&lt;b&gt;NSG: nsg-granaamiga&lt;/b&gt;&lt;br&gt;entrada: 8080 (API) · 22 (SSH)&lt;br&gt;5432 não exposta" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=11;verticalLabelPosition=top;verticalAlign=bottom;image=img/lib/azure2/networking/Network_Security_Groups.svg;">
+          <mxGeometry x="530" y="355" width="44" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="disk" parent="1" vertex="1" value="&lt;b&gt;Disco do SO&lt;/b&gt;" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=11;verticalLabelPosition=bottom;verticalAlign=top;image=img/lib/azure2/compute/Disks.svg;">
+          <mxGeometry x="700" y="680" width="52" height="42" as="geometry" />
+        </mxCell>
+
+        <!-- Atores e ferramentas externas -->
+        <mxCell id="user" parent="1" vertex="1" value="&lt;b&gt;Família / usuário&lt;/b&gt;&lt;br&gt;(App Grana Amiga ·&lt;br&gt;navegador · curl)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;">
+          <mxGeometry x="50" y="352" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="github" parent="1" vertex="1" value="&lt;b&gt;GitHub&lt;/b&gt;&lt;br&gt;app/ · Dockerfile · compose&lt;br&gt;scripts/ · README" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F6F8FA;strokeColor=#000000;fontSize=11;">
+          <mxGeometry x="110" y="95" width="155" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="devops" parent="1" vertex="1" value="&lt;b&gt;Equipe DevOps&lt;/b&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;">
+          <mxGeometry x="50" y="640" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="terminal" parent="1" vertex="1" value="&lt;b&gt;Terminal&lt;/b&gt;&lt;br&gt;Azure CLI · SSH&lt;br&gt;(Cloud Shell / Git Bash)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E1E1E;strokeColor=#000000;fontColor=#FFFFFF;fontSize=11;">
+          <mxGeometry x="125" y="640" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Nota de automação -->
+        <mxCell id="iac" parent="1" vertex="1" value="&lt;b&gt;Fluxo de automação (IaC)&lt;/b&gt;&lt;br&gt;1. provision-vm.sh: az group create · az vm create · az vm open-port 8080&lt;br&gt;2. setup-docker.sh (na VM): apt install docker.io docker-compose-v2 · docker compose up -d --build&lt;br&gt;3. teardown.sh: az group delete · az group exists (false)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#D6B656;align=left;verticalAlign=middle;spacingLeft=10;fontSize=10;">
+          <mxGeometry x="880" y="672" width="520" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Fluxo principal da requisição -->
+        <mxCell id="e1" parent="1" edge="1" source="user" target="pip" value="HTTP :8080" style="endArrow=block;endFill=1;html=1;strokeColor=#3333FF;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" parent="1" edge="1" source="pip" target="nsg" style="endArrow=block;endFill=1;html=1;strokeColor=#3333FF;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" parent="1" edge="1" source="nsg" target="app" value="ports 8080:8080" style="endArrow=block;endFill=1;html=1;strokeColor=#3333FF;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" parent="1" edge="1" source="app" target="db" value="JDBC db:5432&lt;br&gt;depends_on:&lt;br&gt;service_healthy" style="endArrow=block;endFill=1;html=1;strokeColor=#336791;strokeWidth=2;fontSize=10;labelBackgroundColor=#E8F4FD;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" parent="1" edge="1" source="db" target="volume" value="persistência" style="endArrow=block;endFill=1;html=1;strokeColor=#336791;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" parent="1" edge="1" source="env" target="app" value="environment" style="endArrow=block;endFill=1;html=1;dashed=1;strokeColor=#B8860B;fontSize=10;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" parent="1" edge="1" source="vm" target="disk" style="endArrow=none;html=1;strokeColor=#666666;strokeWidth=2;exitX=0.1;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Fluxos de operação -->
+        <mxCell id="e8" parent="1" edge="1" source="github" target="docker" value="git clone + docker compose up -d --build" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;html=1;dashed=1;strokeColor=#000000;strokeWidth=1.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.9;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="285" y="126" />
+              <mxPoint x="285" y="65" />
+              <mxPoint x="1300" y="65" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" parent="1" edge="1" source="devops" target="terminal" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" parent="1" edge="1" source="terminal" target="nsg" value="SSH :22" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;html=1;dashed=1;strokeColor=#009900;strokeWidth=1.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="195" y="540" />
+              <mxPoint x="552" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" parent="1" edge="1" source="terminal" value="Azure CLI&lt;br&gt;cria / apaga" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;strokeWidth=1.5;fontSize=10;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

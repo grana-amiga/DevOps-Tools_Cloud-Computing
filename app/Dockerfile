@@ -28,6 +28,6 @@ EXPOSE 8080
 
 # Valores padrão não sensíveis; usuário e senha do banco vêm SOMENTE do .env via Compose
 ENV SERVER_PORT=8080 \
-    SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/citizentech
+    SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/granaamiga
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -43,7 +43,6 @@ O professor precisa **reproduzir todo o ambiente seguindo somente o README**. So
 │   └── teardown.sh            ← apaga o resource group (evitar custo)
 ├── docs/
 │   ├── arquitetura.png        ← arquitetura macro (específica da solução, não genérica)
-│   ├── evidencias/            ← prints: containers, logs, exec, whoami, CRUD, SELECT
 │   └── aulas/                 ← material das aulas convertido em .md (no .gitignore se não puder ser público)
 ```
 
@@ -76,7 +75,7 @@ Cada item abaixo vale ponto ou gera desconto. Não pule nenhum.
 - [ ] `depends_on` com `condition: service_healthy` + `healthcheck` no banco.
 - [ ] Containers rodando em **background** (`docker compose up -d`).
 
-**Evidências (README + vídeo)**
+**Evidências (no vídeo; o professor confirmou em 11/11 que não precisa de prints)**
 - [ ] Arquitetura macro da solução.
 - [ ] `docker ps` com os containers rodando na VM.
 - [ ] `docker compose logs`.

@@ -57,8 +57,7 @@ Turma: **2TDSPR**
 │   └── teardown.sh             # Azure CLI: apaga o grupo de recursos
 ├── docs/
 │   ├── arquitetura.png         # Arquitetura macro da solução
-│   ├── arquitetura.drawio      # Fonte editável do diagrama
-│   └── evidencias/             # Prints da execução na VM
+│   └── arquitetura.drawio      # Fonte editável do diagrama
 ├── docker-compose.yml          # Serviços app + db, rede e volume
 ├── .env.example                # Modelo das variáveis (o .env real não vai para o Git)
 ├── .gitattributes              # Força quebra de linha LF nos scripts .sh
@@ -287,19 +286,21 @@ O script apaga o grupo de recursos `rg-granaamiga-gs` (VM, IP, VNet, NSG e disco
 
 ## Evidências
 
-<!-- TODO: adicionar os prints em docs/evidencias/ após a execução na VM -->
+As evidências da execução na VM Azure estão no **[vídeo da demonstração](#grana-amiga--devops-tools--cloud-computing)**. A tabela abaixo indica em que momento cada uma aparece.
 
-| Evidência | Arquivo |
-|-----------|---------|
-| VM criada pela Azure CLI | `docs/evidencias/01-provision-vm.png` |
-| `docker ps` / `docker compose ps` na VM | `docs/evidencias/02-docker-ps.png` |
-| `docker compose logs` | `docs/evidencias/03-logs.png` |
-| `docker exec` + `whoami` (usuário não-root) | `docs/evidencias/04-exec-whoami.png` |
-| Estrutura de diretórios | `docs/evidencias/05-estrutura.png` |
-| CRUD (POST, GET, PUT, DELETE) pelo IP público | `docs/evidencias/06-crud.png` |
-| `SELECT` direto no banco | `docs/evidencias/07-select.png` |
-| Persistência após `down` + `up` | `docs/evidencias/08-persistencia.png` |
-| Remoção dos recursos (`az group exists` = false) | `docs/evidencias/09-teardown.png` |
+<!-- TODO: preencher os minutos depois de publicar o vídeo -->
+
+| Evidência | Comando / o que mostra | Minuto no vídeo |
+|-----------|------------------------|-----------------|
+| VM criada pela Azure CLI | `./scripts/provision-vm.sh` + recursos no portal Azure | _a definir_ |
+| Containers em execução na VM | `docker ps` / `docker compose ps` | _a definir_ |
+| Logs dos containers | `docker compose logs` | _a definir_ |
+| Acesso aos containers e usuário não-root | `docker exec` + `whoami` | _a definir_ |
+| Estrutura de diretórios | `tree` / `ls` no repositório da VM | _a definir_ |
+| CRUD (POST, GET, PUT, DELETE) pelo IP público | `curl http://<IP>:8080/...` | _a definir_ |
+| `SELECT` direto no banco | `docker exec -it db psql ...` | _a definir_ |
+| Persistência após recriar os containers | `docker compose down` + `up -d` + `SELECT` | _a definir_ |
+| Remoção dos recursos | `./scripts/teardown.sh` (`az group exists` = false) | _a definir_ |
 
 ---
 

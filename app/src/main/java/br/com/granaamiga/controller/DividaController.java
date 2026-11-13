@@ -1,10 +1,10 @@
 package br.com.granaamiga.controller;
 
-import br.com.granaamiga.model.AlertaVencimentoResponse;
-import br.com.granaamiga.model.DividaRequest;
-import br.com.granaamiga.model.DividaResponse;
-import br.com.granaamiga.model.PlanoQuitacaoResponse;
-import br.com.granaamiga.model.TermometroDividasResponse;
+import br.com.granaamiga.model.divida.AlertaVencimentoResponse;
+import br.com.granaamiga.model.divida.DividaRequest;
+import br.com.granaamiga.model.divida.DividaResponse;
+import br.com.granaamiga.model.divida.PlanoQuitacaoResponse;
+import br.com.granaamiga.model.divida.TermometroDividasResponse;
 import br.com.granaamiga.service.DividaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v1/dividas")
@@ -112,8 +115,12 @@ public class DividaController {
     private EntityModel<DividaResponse> links(DividaResponse dto) {
         String base = "/api/v1/dividas/" + dto.id();
         return EntityModel.of(dto,
-                Link.of(base).withSelfRel(),
+                Link.of(base).withSelfRel()
+                        .andAffordance(afford(methodOn(DividaController.class).atualizar(null, dto.id(), null)))
+                        .andAffordance(afford(methodOn(DividaController.class).excluir(null, dto.id()))),
                 Link.of(base + "/plano").withRel("plano"),
+                Link.of(base).withRel("atualizar").withTitle("PUT"),
+                Link.of(base).withRel("excluir").withTitle("DELETE"),
                 Link.of("/api/v1/dividas").withRel("dividas"));
     }
 

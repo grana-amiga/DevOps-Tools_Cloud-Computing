@@ -106,7 +106,7 @@ Detalhes dos campos: seção 5 do `CONTEXTO-GS-CITIZENTECH.md`.
 
 ## Decisões tomadas
 
-- [x] **Origem do código (13/11):** cópia em `app/` da API do Pedro (Java-Advanced, commit `b8ea138`) e em `db/` do script do Davi (BD, commit `d63a3db`), sem alterá-los. Para atualizar, copiar de novo e citar o novo commit no README.
+- [x] **Origem do código (13/11):** cópia em `app/` da API do Pedro (Java-Advanced, commit `6771d19`, atualizado em 13/11; o `Dockerfile` do repo do Pedro é para o Render e NÃO é copiado) e em `db/` do script do Davi (BD, commit `d63a3db`), sem alterá-los. Para atualizar, copiar de novo e citar o novo commit no README.
 - [x] **Banco (13/11):** Oracle em container no lugar do PostgreSQL, para ser a mesma ferramenta das disciplinas de Java e BD. Diverge da aula (MySQL/PostgreSQL); a justificativa está no README.
 - [x] **VM:** `Standard_B2als_v2` (4 GB, ~US$ 0,05/h) em `southafricanorth` + 2 GB de swap no `setup-docker.sh`. Se travar, trocar para `Standard_B2as_v2` (8 GB, ~US$ 0,10/h). Crédito de estudante: US$ 100/ano, então sempre rodar o teardown.
 

@@ -1,13 +1,13 @@
 package br.com.granaamiga.service;
 
-import br.com.granaamiga.model.Categoria;
-import br.com.granaamiga.model.OrigemTransacao;
-import br.com.granaamiga.model.ResumoMensalDto;
-import br.com.granaamiga.model.TipoTransacao;
-import br.com.granaamiga.model.TotalCategoriaDto;
-import br.com.granaamiga.model.Transacao;
-import br.com.granaamiga.model.TransacaoDto;
-import br.com.granaamiga.model.TransacaoForm;
+import br.com.granaamiga.model.categoria.Categoria;
+import br.com.granaamiga.model.transacao.OrigemTransacao;
+import br.com.granaamiga.model.transacao.ResumoMensalDto;
+import br.com.granaamiga.model.transacao.TipoTransacao;
+import br.com.granaamiga.model.transacao.TotalCategoriaDto;
+import br.com.granaamiga.model.transacao.Transacao;
+import br.com.granaamiga.model.transacao.TransacaoDto;
+import br.com.granaamiga.model.transacao.TransacaoForm;
 import br.com.granaamiga.repository.TransacaoRepository;
 import br.com.granaamiga.repository.UsuarioRepository;
 import jakarta.persistence.criteria.Predicate;
@@ -149,15 +149,16 @@ public class TransacaoService {
         if (categoria.getTipo() != form.tipo()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo da categoria incompatível com a transação");
         }
+        LocalDateTime data = form.dataTransacao() != null ? form.dataTransacao()
+                : transacao.getDataTransacao() != null ? transacao.getDataTransacao() : LocalDateTime.now(clock);
+        if (data.getYear() < 2000 || data.getYear() > 2100) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datas devem estar entre 2000 e 2100");
+        }
         transacao.setCategoria(categoria);
         transacao.setValor(form.valor());
         transacao.setTipo(form.tipo());
         transacao.setDescricao(form.descricao() == null ? null : form.descricao().trim());
-        if (form.dataTransacao() != null) {
-            transacao.setDataTransacao(form.dataTransacao());
-        } else if (transacao.getDataTransacao() == null) {
-            transacao.setDataTransacao(LocalDateTime.now(clock));
-        }
+        transacao.setDataTransacao(data);
         transacao.setOrigem(origem);
     }
 

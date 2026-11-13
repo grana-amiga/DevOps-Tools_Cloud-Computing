@@ -1,11 +1,11 @@
 package br.com.granaamiga.controller;
 
-import br.com.granaamiga.model.DispositivoDto;
-import br.com.granaamiga.model.DispositivoForm;
-import br.com.granaamiga.model.LeituraEnergiaDto;
-import br.com.granaamiga.model.LeituraEnergiaForm;
-import br.com.granaamiga.model.PaginaLeiturasDto;
-import br.com.granaamiga.model.ResumoEnergiaDto;
+import br.com.granaamiga.model.energia.DispositivoDto;
+import br.com.granaamiga.model.energia.DispositivoForm;
+import br.com.granaamiga.model.energia.LeituraEnergiaDto;
+import br.com.granaamiga.model.energia.LeituraEnergiaForm;
+import br.com.granaamiga.model.energia.PaginaLeiturasDto;
+import br.com.granaamiga.model.energia.ResumoEnergiaDto;
 import br.com.granaamiga.service.EnergiaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -30,6 +30,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v1/dispositivos")
@@ -120,9 +123,16 @@ public class EnergiaController {
     private EntityModel<DispositivoDto> linksDispositivo(DispositivoDto dto) {
         String base = "/api/v1/dispositivos/" + dto.id();
         return EntityModel.of(dto,
-                Link.of(base).withSelfRel(),
+                Link.of(base).withSelfRel()
+                        .andAffordance(afford(methodOn(EnergiaController.class).atualizar(null, dto.id(), null)))
+                        .andAffordance(afford(methodOn(EnergiaController.class).excluir(null, dto.id()))),
                 Link.of(base + "/leituras").withRel("leituras"),
+                Link.of(base + "/leituras").withRel("registrarLeitura")
+                        .withTitle("POST")
+                        .andAffordance(afford(methodOn(EnergiaController.class).registrarLeitura(null, dto.id(), null))),
                 Link.of(base + "/resumo{?ano,mes}").withRel("resumo"),
+                Link.of(base).withRel("atualizar").withTitle("PUT"),
+                Link.of(base).withRel("excluir").withTitle("DELETE"),
                 Link.of("/api/v1/dispositivos").withRel("dispositivos"));
     }
 

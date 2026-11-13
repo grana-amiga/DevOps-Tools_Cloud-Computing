@@ -46,7 +46,7 @@ Este repositório junta as entregas de outras disciplinas da GS, sem alterá-las
 
 | Pasta | Origem | Versão usada |
 |-------|--------|--------------|
-| `app/` | API da disciplina de Java Advanced – [grana-amiga/Java-Advanced](https://github.com/grana-amiga/Java-Advanced) | commit `b8ea138` |
+| `app/` | API da disciplina de Java Advanced – [grana-amiga/Java-Advanced](https://github.com/grana-amiga/Java-Advanced) | commit `6771d19` |
 | `db/GranaAmiga_GS2026_2_BD.sql` | Script da disciplina de Banco de Dados – [grana-amiga/Mastering-Relational-and-Non-Relational-Database](https://github.com/grana-amiga/Mastering-Relational-and-Non-Relational-Database) | commit `d63a3db` |
 
 Os arquivos de DevOps são `app/Dockerfile`, `docker-compose.yml`, `db/init/`, `db/healthcheck.sql`, `.env.example` e `scripts/`.
@@ -161,7 +161,7 @@ No `nano`, troque **todos** os valores que começam com `troque-` (salvar: `Ctrl
 | `APP_USER` | Schema da aplicação (dono das tabelas; também usado pela API) | `granaamiga` |
 | `APP_USER_PASSWORD` | Senha do schema da aplicação | _defina uma senha forte_ |
 | `APP_JWT_SECRET` | Segredo que assina os tokens JWT (mínimo 32 caracteres) | _saída do `openssl rand`_ |
-| `APP_BOOTSTRAP_ADMIN_PHONE` | Telefone do administrador criado pelo script de BD | `11900000010` |
+| `APP_BOOTSTRAP_ADMIN_PHONE` | Telefone do administrador que a API cria na primeira subida (não pode existir no script de BD) | `11900000099` |
 | `APP_BOOTSTRAP_ADMIN_PASSWORD` | Senha do administrador (a API grava o hash BCrypt na subida) | _defina uma senha_ |
 | `APP_PORT` | Porta publicada da API na VM | `8080` |
 
@@ -183,7 +183,7 @@ Na **primeira** subida o Oracle cria o banco e roda o script da disciplina de BD
 
 ### 6. Testar o CRUD (pela sua máquina, usando o IP público)
 
-A API usa **JWT**: primeiro você cria uma conta e faz login; o token retornado vai no cabeçalho `Authorization` das demais chamadas. Swagger (documentação interativa): `http://<IP_PUBLICO_DA_VM>:8080/swagger-ui.html`.
+A API usa **JWT**: primeiro você cria uma conta e faz login; o token retornado vai no cabeçalho `Authorization` das demais chamadas. Swagger (documentação interativa): abra `http://<IP_PUBLICO_DA_VM>:8080` no navegador, que redireciona para o `/swagger-ui.html`.
 
 Defina o IP uma vez para copiar os comandos sem editar:
 
@@ -270,7 +270,7 @@ Principais rotas:
 | POST · GET · PUT · DELETE | `/api/v1/dispositivos` · `/{id}` | Medidores de energia (+ `/{id}/leituras`, `/{id}/resumo`) | USER |
 | GET | `/actuator/health` | Saúde da API | Público |
 
-> **Usuários de exemplo do script de BD:** as senhas deles são marcadores (`HASH_DEMO_...`), então não fazem login; eles servem para os `SELECT` e as procedures. Para testar a API, cadastre um usuário (como acima) ou use o **administrador**: telefone `APP_BOOTSTRAP_ADMIN_PHONE` e senha `APP_BOOTSTRAP_ADMIN_PASSWORD` do seu `.env`.
+> **Usuários de exemplo do script de BD:** as senhas deles são marcadores (`HASH_DEMO_...`), então não fazem login; eles servem para os `SELECT` e as procedures. Para testar a API, cadastre um usuário (como acima) ou use o **administrador** que a API cria na primeira subida: telefone `APP_BOOTSTRAP_ADMIN_PHONE` e senha `APP_BOOTSTRAP_ADMIN_PASSWORD` do seu `.env`. O administrador de exemplo do script (`11900000010`) também tem senha marcador e não faz login.
 
 ### 7. Verificar containers, logs, usuário e banco (dentro da VM)
 

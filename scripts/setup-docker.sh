@@ -62,6 +62,14 @@ if grep -q "=troque-" .env; then
   grep -o "^[A-Z_]*=troque-" .env | cut -d= -f1
   exit 1
 fi
+# Senhas do Oracle só com letras e números: o sqlplus monta a conexão como usuario/senha@//host/banco,
+# então um "@" ou "/" na senha quebra o login do script de BD e o banco nunca fica healthy
+for VAR in ORACLE_PASSWORD APP_USER_PASSWORD; do
+  if ! grep -qE "^${VAR}=[A-Za-z0-9]+$" .env; then
+    echo "ERRO: $VAR deve ter só letras e números (sem @, #, /, espaços ou aspas). Edite com: nano .env"
+    exit 1
+  fi
+done
 # Mostra só o schema e o telefone do admin (senhas e segredo não aparecem)
 grep -E "^(APP_USER|APP_BOOTSTRAP_ADMIN_PHONE)=" .env
 echo ""

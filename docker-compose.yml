@@ -30,8 +30,8 @@ services:
       test: ["CMD-SHELL", "sqlplus -s -L $${APP_USER}/$${APP_USER_PASSWORD}@//localhost/FREEPDB1 @/opt/granaamiga/healthcheck.sql | grep -q PRONTO"]
       interval: 15s
       timeout: 10s
-      retries: 20
-      start_period: 60s # Oracle demora ~1 min para subir; falhas nesse período não contam
+      retries: 40          # até ~10 min de espera depois do start_period (a VM tem CPU mais fraca que um notebook)
+      start_period: 120s   # Oracle cria o banco e roda o script de BD; falhas nesse período não contam
 
   app:
     container_name: app

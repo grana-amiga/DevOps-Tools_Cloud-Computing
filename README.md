@@ -153,7 +153,7 @@ nano .env
 No `nano`, troque **todos** os valores que começam com `troque-` (salvar: `Ctrl+O`, Enter; sair: `Ctrl+X`). O script do próximo passo não continua enquanto houver valor de exemplo.
 
 > Dica: gere um segredo JWT aleatório com `openssl rand -base64 48` e cole em `APP_JWT_SECRET`.
-> Use só letras e números nas senhas do Oracle (alguns símbolos, como `@` e `/`, quebram a conexão do `sqlplus`).
+> ⚠️ **Use só letras e números em `ORACLE_PASSWORD` e `APP_USER_PASSWORD`.** O `sqlplus` monta a conexão como `usuario/senha@//host/banco`; um `@` ou `/` na senha quebra o login e o banco nunca fica pronto. O `setup-docker.sh` recusa senhas com símbolos.
 
 | Variável | Uso | Exemplo |
 |----------|-----|---------|
@@ -179,7 +179,9 @@ sudo docker compose up -d --build
 sudo docker compose ps
 ```
 
-Na **primeira** subida o Oracle cria o banco e roda o script da disciplina de BD (tabelas, dados de exemplo e procedures), o que leva cerca de **2 minutos**. O `healthcheck` só marca o `db` como `healthy` quando o script termina, e só então o Compose inicia a `app`. Ao final, o script espera a API responder em `/actuator/health`.
+Na **primeira** subida o Oracle cria o banco e roda o script da disciplina de BD (tabelas, dados de exemplo e procedures), o que leva de **2 a 6 minutos** na VM (o healthcheck tolera até cerca de 12 minutos). O `healthcheck` só marca o `db` como `healthy` quando o script termina, e só então o Compose inicia a `app`. Ao final, o script espera a API responder em `/actuator/health`.
+
+> **Se o `db` ficar `unhealthy`:** veja o motivo com `sudo docker logs db --tail 40`. Se aparecer `ORA-01005` ou `ORA-12262`, a senha do `.env` tem símbolo: troque por uma só com letras e números e recrie o banco do zero com `sudo docker compose down -v` e `sudo docker compose up -d` (o `-v` é necessário porque o usuário do Oracle foi criado com a senha antiga dentro do volume).
 
 ### 6. Testar o CRUD (pela sua máquina, usando o IP público)
 

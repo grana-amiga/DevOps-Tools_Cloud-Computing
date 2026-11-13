@@ -13,9 +13,9 @@ RG="rg-granaamiga-gs"
 LOCATION="southafricanorth"
 VM="vm-granaamiga"
 IMAGE="Ubuntu2404"
-SIZE="Standard_B2als_v2"   # 2 vCPU e 4 GB de RAM: folga para a API Java + PostgreSQL
+SIZE="Standard_B2als_v2"   # 2 vCPU e 4 GB de RAM: API Java + Oracle (com 2 GB de swap criados no setup-docker.sh)
 ADMIN_USER="rm567295"
-PORT=8080                  # Porta da API (o PostgreSQL NÃO é exposto para a internet)
+PORT=8080                  # Porta da API (o banco Oracle NÃO é exposto para a internet)
 
 echo "*************************************"
 echo "Grana Amiga - Provisionamento da VM na Azure"

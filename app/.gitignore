@@ -1,0 +1,11 @@
+/target/
+/data/
+/.idea/
+/.vscode/
+*.iml
+*.log
+.env
+.env.*
+*.mv.db
+*.trace.db
+/scripts/rodar-local.ps1

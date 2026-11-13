@@ -5,25 +5,33 @@ services:
 
   db:
     container_name: db
-    image: postgres:16
+    # Oracle Database 23ai Free (imagem gvenzl, a mais usada para Oracle em container).
+    # "slim" = sem componentes opcionais, imagem menor. Versão fixada (23.26.3), nada de "latest".
+    image: gvenzl/oracle-free:23.26.3-slim
     expose:
-      - "5432" # Sem "ports": o banco só é acessível por containers na mesma rede
+      - "1521" # Sem "ports": o banco só é acessível por containers na mesma rede
     networks:
       - granaamiga-network
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      # Volume nomeado: arquivos de dados do Oracle sobrevivem a "docker compose down"
+      - oracle-data:/opt/oracle/oradata
+      # Scripts de inicialização (rodam só na primeira subida, com o volume vazio)
+      - ./db/init:/container-entrypoint-initdb.d:ro
+      - ./db/GranaAmiga_GS2026_2_BD.sql:/opt/granaamiga/GranaAmiga_GS2026_2_BD.sql:ro
+      - ./db/healthcheck.sql:/opt/granaamiga/healthcheck.sql:ro
     restart: unless-stopped
     # Valores lidos do .env (o Compose carrega o .env da pasta automaticamente)
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}       # senha dos usuários administrativos (SYS/SYSTEM)
+      APP_USER: ${APP_USER}                     # schema da aplicação, criado no FREEPDB1
+      APP_USER_PASSWORD: ${APP_USER_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 20s
-      retries: 10
+      # Só fica "healthy" depois que o script do Davi criou tabelas, dados e procedures
+      test: ["CMD-SHELL", "sqlplus -s -L $${APP_USER}/$${APP_USER_PASSWORD}@//localhost/FREEPDB1 @/opt/granaamiga/healthcheck.sql | grep -q PRONTO"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s # Oracle demora ~1 min para subir; falhas nesse período não contam
 
   app:
     container_name: app
@@ -35,9 +43,13 @@ services:
     networks:
       - granaamiga-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      # "db" é o nome do serviço acima: o DNS interno da rede do Compose resolve para o container do banco
+      DB_URL: jdbc:oracle:thin:@//db:1521/FREEPDB1
+      DB_USERNAME: ${APP_USER}
+      DB_PASSWORD: ${APP_USER_PASSWORD}
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+      APP_BOOTSTRAP_ADMIN_PHONE: ${APP_BOOTSTRAP_ADMIN_PHONE}
+      APP_BOOTSTRAP_ADMIN_PASSWORD: ${APP_BOOTSTRAP_ADMIN_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
@@ -47,4 +59,4 @@ networks:
   granaamiga-network:
 
 volumes:
-  postgres-data:
+  oracle-data:

@@ -1,5 +1,6 @@
 # Estágio 1: build da aplicação com Maven, aproveitando o cache de dependências
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+# Java 25: mesma versão do pom.xml da API (java.version = 25)
+FROM maven:3.9.16-eclipse-temurin-25 AS builder
 WORKDIR /app
 
 # Copia o pom.xml e baixa as dependências primeiro (camada reaproveitada se só o código mudar)
@@ -11,7 +12,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Estágio 2: imagem enxuta só com o JRE para execução
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 
 # Cria usuário não-root antes de copiar os arquivos
 RUN addgroup --system appuser && adduser --system --ingroup appuser appuser
@@ -26,8 +27,8 @@ USER appuser
 # Porta da API
 EXPOSE 8080
 
-# Valores padrão não sensíveis; usuário e senha do banco vêm SOMENTE do .env via Compose
+# Valores padrão não sensíveis; usuário, senha do banco e segredo JWT vêm SOMENTE do .env via Compose
 ENV SERVER_PORT=8080 \
-    SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/granaamiga
+    DB_URL=jdbc:oracle:thin:@//db:1521/FREEPDB1
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

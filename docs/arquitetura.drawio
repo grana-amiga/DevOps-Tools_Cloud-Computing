@@ -44,7 +44,7 @@
         <mxCell id="appicon" parent="1" vertex="1" value="" style="image;aspect=fixed;html=1;points=[];align=center;image=img/lib/azure2/containers/Container_Instances.svg;">
           <mxGeometry x="713" y="318" width="32" height="34" as="geometry" />
         </mxCell>
-        <mxCell id="db" parent="1" vertex="1" value="&lt;b&gt;Container: db&lt;/b&gt;&lt;br&gt;Oracle Database 23ai Free (gvenzl/oracle-free:23.26.3-slim)&lt;br&gt;expose 1521 · só rede interna&lt;br&gt;init: script da disciplina de BD (1ª subida)&lt;br&gt;healthcheck: sqlplus (script concluído)&lt;br&gt;6 tabelas: usuario · categoria · transacao · divida · dispositivo · leitura_energia" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#336791;strokeWidth=2;fontSize=11;spacingLeft=30;">
+        <mxCell id="db" parent="1" vertex="1" value="&lt;b&gt;Container: db&lt;/b&gt;&lt;br&gt;Oracle AI Database 26ai Free (gvenzl/oracle-free:23.26.3-slim)&lt;br&gt;expose 1521 · só rede interna&lt;br&gt;init: script da disciplina de BD (1ª subida)&lt;br&gt;healthcheck: sqlplus (script concluído)&lt;br&gt;6 tabelas: usuario · categoria · transacao · divida · dispositivo · leitura_energia" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#336791;strokeWidth=2;fontSize=11;spacingLeft=30;">
           <mxGeometry x="1080" y="310" width="255" height="145" as="geometry" />
         </mxCell>
         <mxCell id="dbicon" parent="1" vertex="1" value="" style="shape=mxgraph.veeam2.oracle_db;html=1;points=[];fillColor=#C74634;strokeColor=none;aspect=fixed;">

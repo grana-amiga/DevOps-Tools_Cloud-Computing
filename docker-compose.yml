@@ -5,7 +5,7 @@ services:
 
   db:
     container_name: db
-    # Oracle Database 23ai Free (imagem gvenzl, a mais usada para Oracle em container).
+    # Oracle AI Database 26ai Free (imagem gvenzl, a mais usada para Oracle em container).
     # "slim" = sem componentes opcionais, imagem menor. Versão fixada (23.26.3), nada de "latest".
     image: gvenzl/oracle-free:23.26.3-slim
     expose:

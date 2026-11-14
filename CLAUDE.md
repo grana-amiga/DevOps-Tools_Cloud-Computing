@@ -21,7 +21,7 @@ Leia o arquivo acima antes de qualquer tarefa. Este CLAUDE.md traz só o que é 
 Demonstrar a API Java (Spring Boot) da solução rodando em uma **VM Linux no Microsoft Azure provisionada por Azure CLI**, com **Docker + Docker Compose**, em **dois containers integrados**:
 
 1. **app** – API Java (Spring Boot), CRUD completo com ≥ 2 tabelas relacionadas.
-2. **db** – Oracle Database 23ai Free (`gvenzl/oracle-free`) com o script da disciplina de BD, volume nomeado e persistência.
+2. **db** – Oracle AI Database 26ai Free (`gvenzl/oracle-free`) com o script da disciplina de BD, volume nomeado e persistência.
 
 O professor precisa **reproduzir todo o ambiente seguindo somente o README**. Solução rodando só em localhost = **nota zero**.
 

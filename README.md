@@ -29,7 +29,7 @@ Turma: **2TDSPR**
 
 > Fonte editável: [`docs/arquitetura.drawio`](docs/arquitetura.drawio) (abrir no [draw.io](https://app.diagrams.net/)).
 
-**Fluxo:** o usuário (app, navegador ou cURL) acessa o **IP público da VM** na porta **8080**. O **NSG** da Azure libera só as portas 22 (SSH) e 8080 (API). O Docker encaminha a requisição para o container **`app`** (API Spring Boot), que valida o token JWT e grava e lê os dados no container **`db`** (Oracle Database 23ai Free) pela rede interna **`granaamiga-network`**, usando o nome do serviço `db` como host. Os dados do banco ficam no volume nomeado **`granaamiga_oracle-data`**, então sobrevivem à recriação dos containers. A porta 1521 do banco **não** é exposta para a internet.
+**Fluxo:** o usuário (app, navegador ou cURL) acessa o **IP público da VM** na porta **8080**. O **NSG** da Azure libera só as portas 22 (SSH) e 8080 (API). O Docker encaminha a requisição para o container **`app`** (API Spring Boot), que valida o token JWT e grava e lê os dados no container **`db`** (Oracle AI Database 26ai Free) pela rede interna **`granaamiga-network`**, usando o nome do serviço `db` como host. Os dados do banco ficam no volume nomeado **`granaamiga_oracle-data`**, então sobrevivem à recriação dos containers. A porta 1521 do banco **não** é exposta para a internet.
 
 | Componente | Tecnologia |
 |------------|------------|
@@ -38,7 +38,7 @@ Turma: **2TDSPR**
 | Sistema da VM | Ubuntu Server 24.04 LTS · `Standard_B2als_v2` (2 vCPU, 4 GB) + 2 GB de swap |
 | Containers | Docker Engine + Docker Compose v2 |
 | Aplicação (`app`) | Java 25 + Spring Boot 4.1 (Spring Security + JWT, JPA, HATEOAS, Actuator, Swagger) · imagem multi-stage, usuário não-root |
-| Banco (`db`) | Oracle Database 23ai Free (`gvenzl/oracle-free:23.26.3-slim`) · volume nomeado · 6 tabelas relacionadas |
+| Banco (`db`) | Oracle AI Database 26ai Free (`gvenzl/oracle-free:23.26.3-slim`) · volume nomeado · 6 tabelas relacionadas |
 
 ### Origem do código (ferramenta única do grupo)
 
@@ -320,6 +320,8 @@ SELECT u.nome, c.nome AS categoria, t.tipo, t.valor, t.origem
  WHERE ROWNUM <= 10;
 EXIT
 ```
+
+> Ao colar o bloco no `sqlplus`, aperte **Enter** mais uma vez para o `EXIT` executar. O banner mostra "Oracle AI Database 26ai Free Release 23.26.3": 26ai é o nome comercial atual da versão 23.26 do Oracle Database Free.
 
 ### 8. Comprovar a persistência
 

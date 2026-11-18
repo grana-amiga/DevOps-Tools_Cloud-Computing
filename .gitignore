@@ -17,3 +17,7 @@ Thumbs.db
 
 # Instrucoes locais do Claude Code (nao vao para o repositorio publico)
 CLAUDE.md
+CONTEXTO-GS-CITIZENTECH.md
+
+# PDF de entrega (enviado pelo Portal FIAP, nao pelo Git)
+*.pdf

@@ -6,8 +6,7 @@ A **Grana Amiga** é uma CitizenTech de educação e organização financeira pa
 
 Nesta disciplina, a **API Java (Spring Boot)** da solução e o **banco Oracle** da disciplina de Banco de Dados rodam em **dois containers integrados** com **Docker Compose**, dentro de uma **VM Linux na Microsoft Azure criada por Azure CLI**.
 
-<!-- TODO: trocar pelo link do vídeo quando publicado -->
-**Vídeo da demonstração:** _em breve_
+**Vídeo da demonstração:** [https://youtu.be/wKWDWi3G2hM](https://youtu.be/wKWDWi3G2hM)
 
 ## Integrantes
 
@@ -366,21 +365,21 @@ O script apaga o grupo de recursos `rg-granaamiga-gs` (VM, IP, VNet, NSG e disco
 
 ## Evidências
 
-As evidências da execução na VM Azure estão no **[vídeo da demonstração](#grana-amiga--devops-tools--cloud-computing)**. A tabela abaixo indica em que momento cada uma aparece.
+As evidências da execução na VM Azure estão no **[vídeo da demonstração](https://youtu.be/wKWDWi3G2hM)**. A tabela indica em que momento cada uma começa; clique no minuto para abrir o vídeo nesse ponto.
 
-<!-- TODO: preencher os minutos depois de publicar o vídeo -->
-
-| Evidência | Comando / o que mostra | Minuto no vídeo |
-|-----------|------------------------|-----------------|
-| VM criada pela Azure CLI | `./scripts/provision-vm.sh` + recursos no portal Azure | _a definir_ |
-| Containers em execução na VM | `docker ps` / `docker compose ps` | _a definir_ |
-| Logs dos containers | `docker compose logs` | _a definir_ |
-| Acesso aos containers e usuário não-root | `docker exec` + `whoami` | _a definir_ |
-| Estrutura de diretórios | `tree` / `ls` no repositório da VM | _a definir_ |
-| CRUD (POST, GET, PUT, DELETE) pelo IP público | `curl http://<IP>:8080/api/v1/...` com JWT | _a definir_ |
-| `SELECT` direto no banco | `docker exec -it db ... sqlplus` | _a definir_ |
-| Persistência após recriar os containers | `docker compose down` + `up -d` + `SELECT` | _a definir_ |
-| Remoção dos recursos | `./scripts/teardown.sh` (`az group exists` = false) | _a definir_ |
+| Evidência | O que mostra | Minuto no vídeo |
+|-----------|--------------|-----------------|
+| Arquitetura macro da solução | Explicação do diagrama: IP público, NSG (8080/22), rede interna do Docker, volume nomeado e Azure CLI | [00:38](https://youtu.be/wKWDWi3G2hM?t=38) |
+| Dockerfile e `docker-compose.yml` | Dockerfile multi-stage com usuário não-root `appuser`; Compose com `healthcheck` e `service_healthy` ([02:48](https://youtu.be/wKWDWi3G2hM?t=168)) | [01:40](https://youtu.be/wKWDWi3G2hM?t=100) |
+| VM criada pela Azure CLI | `./scripts/provision-vm.sh` no Cloud Shell, IP público e porta 8080 ([05:50](https://youtu.be/wKWDWi3G2hM?t=350)) e recursos no portal Azure ([06:09](https://youtu.be/wKWDWi3G2hM?t=369)) | [05:09](https://youtu.be/wKWDWi3G2hM?t=309) |
+| Estrutura de diretórios | `tree` do repositório dentro da VM (`app/`, `db/`, `scripts/`, `docs/`, `docker-compose.yml`) | [08:46](https://youtu.be/wKWDWi3G2hM?t=526) |
+| Containers em execução na VM | `docker ps`: `app` publicado na 8080 e `db` *healthy* só na rede interna | [09:38](https://youtu.be/wKWDWi3G2hM?t=578) |
+| Logs dos containers | `docker compose logs app` (Tomcat na 8080, aplicação iniciada) e `docker compose logs db` (script de BD executado, *DATABASE IS READY*, [10:32](https://youtu.be/wKWDWi3G2hM?t=632)) | [10:03](https://youtu.be/wKWDWi3G2hM?t=603) |
+| Acesso aos containers e usuário não-root | `docker exec ... whoami` (`appuser` e `oracle`), entrada no container da API ([11:41](https://youtu.be/wKWDWi3G2hM?t=701)) e no do banco ([12:43](https://youtu.be/wKWDWi3G2hM?t=763)) | [11:08](https://youtu.be/wKWDWi3G2hM?t=668) |
+| CRUD (POST, GET, PUT, DELETE) pelo IP público | `curl` no Git Bash com JWT: health ([15:02](https://youtu.be/wKWDWi3G2hM?t=902)), cadastro ([16:01](https://youtu.be/wKWDWi3G2hM?t=961)), login ([16:54](https://youtu.be/wKWDWi3G2hM?t=1014)), POST ([17:18](https://youtu.be/wKWDWi3G2hM?t=1038)), GET ([18:26](https://youtu.be/wKWDWi3G2hM?t=1106)), PUT ([18:53](https://youtu.be/wKWDWi3G2hM?t=1133)) e DELETE ([19:32](https://youtu.be/wKWDWi3G2hM?t=1172)) | [14:18](https://youtu.be/wKWDWi3G2hM?t=858) |
+| `SELECT` direto no banco | `sqlplus` dentro do container `db`: 6 tabelas, usuários (Ana Souza), transações e dívida com JOIN | [22:10](https://youtu.be/wKWDWi3G2hM?t=1330) |
+| Persistência após recriar os containers | `docker compose down` mantendo o volume, `up -d` ([24:05](https://youtu.be/wKWDWi3G2hM?t=1445)) e novo `SELECT` com os dados da Ana Souza ([24:36](https://youtu.be/wKWDWi3G2hM?t=1476)) | [23:25](https://youtu.be/wKWDWi3G2hM?t=1405) |
+| Remoção dos recursos | `./scripts/teardown.sh` ([25:17](https://youtu.be/wKWDWi3G2hM?t=1517)), `az group exists` = `false` ([25:30](https://youtu.be/wKWDWi3G2hM?t=1530)) e conferência no portal ([25:48](https://youtu.be/wKWDWi3G2hM?t=1548)) | [25:06](https://youtu.be/wKWDWi3G2hM?t=1506) |
 
 ---
 

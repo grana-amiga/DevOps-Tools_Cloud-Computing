@@ -385,4 +385,8 @@ As evidências da execução na VM Azure estão no **[vídeo da demonstração](
 
 ## Uso de IA generativa
 
-Este repositório foi desenvolvido com apoio do **Claude Code (Anthropic)**, usado para: revisar o Dockerfile e o `docker-compose.yml` contra os requisitos da disciplina, adaptar os scripts de Azure CLI, testar a integração da API e do script de BD em containers e redigir este README. Todo o conteúdo foi revisado, executado e validado pelo grupo.
+Durante o desenvolvimento do projeto, o grupo utilizou ferramentas de IA como apoio em algumas etapas, incluindo a revisão das configurações Docker, a adaptação de scripts de Azure CLI, o auxílio na integração entre a API e o banco de dados e a organização da documentação. As implementações foram executadas e testadas em ambiente de containers, e o grupo revisou e validou os resultados, sendo responsável pelo conteúdo e pelas decisões técnicas do projeto.
+
+---
+
+Projeto acadêmico da Global Solution 2026/2 (FIAP), tema *CitizenTech — Tecnologia com o cidadão no centro da inovação*.
